@@ -91,13 +91,12 @@
 
 == 项目简介
 
-本项目基于 Smithay 使用 Rust 开发了一个使用 Wayland 协议的
-#standout_color[平铺式桌面显示系统]。
-项目能够在裸机终端中自行初始化 DRM/KMS 图形管线，并通过 GBM 和 EGL 建立 GPU 渲染上下文，使用 OpenGLES 进行硬件加速合成显示。启动后该 Compositor 接管系统图形输出，并成为客户端程序（如终端模拟器、浏览器）的 Wayland 显示服务。
+本项目基于 Rust 语言与 Smithay 框架，通过 Wayland 协议实现了一个#standout_color[平铺式桌面显示系统]。
+项目能够在裸机终端中自行初始化 DRM/KMS （Kernel Mode Setting） 图形管线，并通过 GBM (Generic Buffer Manager) 和 EGL（Embedded Graphics Library）建立 GPU 渲染上下文，使用 OpenGLES（OpenGL for Embedded Systems）进行硬件加速合成显示。启动后该 Compositor 接管系统图形输出，为客户端程序（如终端模拟器、浏览器）的 Wayland 提供显示服务。
 
 #standout[“Beauty is the promise of happiness.” — Stendhal]
 
-本项目秉持“优雅即力量”的设计哲学，力求在系统结构与用户体验之间取得和谐平衡。无论是内部代码逻辑还是外部交互呈现，都追求简洁、清晰而富有韵律的表达。
+本项目秉持“优雅即力量”的设计哲学，致力于在系统结构与用户体验之间实现和谐平衡。无论是内部代码逻辑，还是外部交互呈现，都追求简洁、清晰而富有韵律的表达。
 
 #figure(
   image("introduce/show1.png", width: 100%),
