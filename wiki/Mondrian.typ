@@ -56,10 +56,15 @@
 
 // 封面
 #align(center)[
-  #image("introduce/logo.png", width: 80%)
+  #text(weight: "bold", size: 30pt)[杭州电子科技大学]
+  \
+  #text(size: 15pt, style:"italic")[Hangzhou Dianzi University]
 
-  #linebreak()#linebreak()#linebreak()#linebreak()#linebreak()#linebreak()
-  
+  #text(weight: "bold", size: 36pt)[全国大学生计算机系统能力大赛]
+  \
+  #text(weight: "bold", size: 20pt)[Computer System Development Capability Competition]
+  #linebreak()#linebreak()
+  #image("introduce/HDU_logo.png", width: 190pt, fit: "contain")
   #par(leading: 1em, spacing: 10em)[  
     #text(
       weight: "bold",
@@ -69,7 +74,7 @@
     #text(size: 14pt)[Wayland 协议下的平铺式桌面显示系统]
   ]
 
-  #text(size: 14pt)[小组成员： 林灿，吴悦怡，陈序]
+  #text(size: 14pt)[参赛人员： 林灿，吴悦怡，陈序]
 
   #text(size: 14pt)[2025 年 6 月]
 ]
