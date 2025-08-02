@@ -470,7 +470,7 @@ Smithay 采用 _calloop_ 作为主事件循环框架，其优势在于：
 - 高性能的非阻塞式事件分发
 - 原生支持定时器、通道等常用异步通信模型
 
-Smithay 为 Winit 后端提供了优秀的兼容模式，可以很方便的进行开发。
+Smithay 为 Winit 后端提供了优秀的兼容支持，使得在桌面环境开发中更加便捷高效。
 
 === EventLoop 事件分发机制
 
@@ -478,14 +478,14 @@ Smithay 为 Winit 后端提供了优秀的兼容模式，可以很方便的进�
 
 _*定义*_
 
-在 `main` 函数中定义一个 `EventLoop` 主体非常简单，直接调用相关的库函数：
+在 `main` 函数中初始化 `EventLoop` 主体非常简单，直接调用相关的库函数：
 
 ```rust
 use smithay::reexports::calloop::EventLoop;
 let mut event_loop: EventLoop<'_, State> = EventLoop::try_new().unwrap();
 ```
 
-在这里，`State` 类型是全局状态结构体，由我们自己定义，目前暂时不谈论细节，你只需知道这个结构体管理所有的程序状态即可。
+此处的`State` 类型是我们自定义的全局状态结构体，用于统一管理合成器运行期间的内部状态（此处暂不展开）。
 
 通过获取 `LoopHandle` 就来执行事件的插入，删除与执行操作：
 
@@ -497,7 +497,7 @@ event_loop
     })?;
 ```
 
-在这里，我们通过 `handle()` 函数获取操作入口，使用 `insert_source` 函数来注册 `EventSource`，其会将一个监听对象添加到主循环中，并且绑定一个处理函数（回调闭包），每当事件产生时，就会调用这个函数。
+通过 `handle()` 函数获取操作入口，使用 `insert_source` 函数来注册 `EventSource`，其会将一个监听对象添加到主循环中，并且绑定一个处理函数（回调闭包），每当事件产生时，就会调用这个函数。
 
 事件循环可以绑定多个事件源，常见类别如下：
 
@@ -541,17 +541,17 @@ loop_handle
     .expect("Failed to init wayland socket source.");
 ```
 
-`Wayland` 是一个基于 `UNIX 域套接字（UNIX domain socket）` 的通信协议，`Client` 与 `Compositor` 之间的所有协议交互，都是通过一个共享的本地套接字进行的。
+`Wayland` 是一个基于 `UNIX `域套接字（UNIX domain socket）的通信协议，`Client` 与 `Compositor` 之间的所有协议交互，都是通过一个共享的本地套接字进行的。
 
 `ListeningSocketSource::new_auto()` 会自动创建一个新的 `UNIX 域套接字`，并监听客户端连接请求。默认在 `/run/user/UID/` 下创建 `socket` 文件，例如 `wayland-0`。本地调试时我们需要设置环境变量 `WAYLAND_DISPLAY=wayland-0` 来绑定测试的 `Compositor`。
 
 当有客户端连接或请求发生时，对应的事件将触发该回调闭包，并调用 `.display_handle.insert_client` 以执行客户端初始化、资源绑定或协议处理等逻辑。
 
-详细的创建内容在 *Client事件源* 篇会详细讲解。
+详细的创建内容在 *Client事件源* 篇会详细介绍。
 
 _*事件执行*_
 
-此前我们只是将需要监听的事件源和需要执行的函数内容加入到了 `EventLoop` 中，但还未真正的下达指令 - 你可以开始监听了，因此，我们还需要以下代码来真正开启循环：
+此前我们只是将需要监听的事件源和需要执行的函数内容加入到了 `EventLoop` 中，但此时事件循环尚未真正启动。要开始事件的监听与调度，还需调用run()方法：
 
 ```rust
 event_loop
@@ -561,7 +561,7 @@ event_loop
     .unwrap();
 ```
 
-此时，我们可以解答在事件源插入中遗留的问题了，可变借用是此时才被传入其中的，顺序上也许会让人疑惑，但这就是 Rust 的“延迟状态绑定”机制的奇妙之处。
+至此，我们可以解答在事件源插入中遗留的问题，可变借用是此时才被传入其中的，顺序上也许会让人疑惑，但这就是 Rust 的“延迟状态绑定”机制的设计优势。
 
 在调用 `insert_source` 时，事件循环尚未开始运行，只是注册了事件源与回调；
 
@@ -573,7 +573,7 @@ event_loop
 
 它确保了事件循环中所有 `state` 的使用都在 `run()` 的生命周期范围内发生，且绝不会出现悬垂引用或数据竞争。
 
-至此，核心的框架就已经被我们解决了，接下来就是真正的进行对不同事件源的处理。
+至此，我们已经构建完成事件主循环的基础框架，接下来即可着手实现对不同事件源的具体处理逻辑。
 
 
 === Client 事件源
@@ -694,7 +694,7 @@ impl XdgShellHandler for State {
 delegate_xdg_shell!(State);
 ```
 
-设置 `xdg-shell` 协议的相关代码也非常简单，只需要使用 `smithay` 提供的框架即可。具体函数内部实现的方法，参考基础框架代码。
+设置 `xdg-shell` 协议的相关支持逻辑相对简洁，可直接使用 `smithay` 提供的框架函数进行实现。具体函数内部实现的方法，参考基础框架代码。
 
 至此，我们已经完成了核心的 `surface` 分配机制，相当于给画家提供了画板，还设置了画板最后展出的场馆 - `toplevel` 或 `popup` 。
 
@@ -794,7 +794,7 @@ event_loop
 
 具体的状态如： `InputEvent::Keyboard`，`InputEvent::PointerMotion` 等这里不再详细讲解，具体参考基础框架代码内容。
 
-至此，我们就得到了一个简单的，可以响应客户端请求，并且支持鼠标，键盘操作的简易 Wayland Compositor。
+至此，我们已构建完成一个具备基本输入响应能力的Wayland合成器，能够接收客户端连接，并处理键盘与鼠标等交互事件。
 
 #pagebreak()
 
