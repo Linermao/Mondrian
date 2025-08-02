@@ -231,25 +231,25 @@ _*用户层*_
 
 === Wayland 协议
 
-Wayland 是设计用于替代 X11 的现代图形协议，由 wayland.freedesktop.org 开发，强调简洁、安全、高性能。其基本架构如下：
+Wayland 是由 wayland.freedesktop.org 推出的现代图形协议，旨在取代 X11。它以简洁、安全和高性能为设计核心。其基本架构如下：
 
 Compositor so Display Server：
 
-- 直接管理窗口、图像合成与缓冲交换。
-- 处理输入事件，并直接分发到正确的客户端。
+- 管理窗口、图像合成与缓冲交换。
+- 接收输入事件，并直接分发至相应的客户端。
 - 实现窗口管理逻辑（如平铺、浮动等）。
-  
+   
 Client：
 
 - 负责自行渲染窗口内容（通过 GPU 渲染或 CPU 绘图）。
 - 使用 wl_surface 等原语将渲染结果提交给 Compositor。
-- 与 Compositor 通过共享内存或 DMA Buffer 实现高效图像交换。
+- 通过与 Compositor 共享内存或 DMA Buffer 实现高效图像交换。
 
 Protocols：
 
 - 基于 Unix Domain Socket 通信，使用 wl_display 进行连接。
-- 使用对象-事件模型（Object/Interface），类似面向对象远程调用。
-- 无需往返确认，大部分请求为异步执行，提高响应效率。
+- 使用对象-事件模型（Object/Interface），类似面向对象的远程调用机制。
+- 绝大多数请求异步处理，无需等待确认，显著提升响应效率。
 
 #figure(
   image("introduce/wayland.png", width: 60%),
