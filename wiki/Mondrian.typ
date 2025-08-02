@@ -265,11 +265,11 @@ X11 是诞生于 1984 年的图形窗口系统，其核心是 client - server �
 
 X11 协议支持网络透明性，即 X Client 和 X Server 可以运行在不同主机上。但其通信模型较为复杂：
 
-- 每个窗口请求都需往返服务器确认（Round Trip），带来额外延迟。
+- 每个窗口请求都需往返服务器确认（Round Trip），导致额外延迟。
 - 图形渲染与窗口管理被分离为多个组件（如 WM、Compositor、Toolkit），难以协调。
-- 输入事件先由 X Server 捕获，后由 Window Manager 转发，路径冗长且易出现冲突。
+- 输入事件先由 X Server 捕获，再由 Window Manager 转发，路径冗长且易出现冲突。
 
-尽管历经多年优化，X11 的架构问题已难以适应现代图形性能与安全性的需求。
+尽管X11历经多年优化， 其架构已难以满足现代图形系统对性能和安全性的需求。
 
 #figure(
   image("introduce/x11.png", width: 70%),
