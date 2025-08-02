@@ -354,11 +354,11 @@ _*原生合成支持*_
 
 == 技术选型
 
-_Mondrian_ 的核心目标是实现一个 #standout[面向未来的、结构可控的] 平铺式桌面环境，因此我们选择了 Rust 作为主要开发语言，并基于 Smithay 框架进行构建。这一组合在性能、可靠性、安全性和协议支持方面表现出极高的适配性。
+_Mondrian_ 的核心目标是实现一个 #standout[面向未来的、结构可控的] 平铺式桌面环境，因此我们选择了 Rust 作为主要开发语言，并基于 Smithay 框架进行构建。该组合在性能、可靠性、安全性与协议支持方面表现出优异的适配性。
 
 == Smithay
 
-Smithay 是一个专为构建 Wayland 合成器而设计的 Rust 框架，提供了协议实现、后端抽象、渲染集成等基础模块。它不是一个完整的 window manager，而是一个合成器构建工具箱。
+Smithay 是一个专为构建 Wayland 合成器而设计的 Rust 框架，提供了协议实现、后端抽象、渲染集成等基础模块。它并非完整的窗口管理器，而是一个合成器构建工具箱。
 
 #figure(
   image("introduce/smithay.png", width: 100%),
@@ -369,8 +369,8 @@ Smithay 是一个专为构建 Wayland 合成器而设计的 Rust 框架，提供
 
 / 模块化设计: Smithay 拆分为多个可选模块，如 wayland-backend, wayland-protocols, input, output 等。
 / Wayland 协议支持广泛: 支持核心协议如 wl_compositor, wl_seat, xdg-shell，并集成 xdg-output, layer-shell, wlr-protocols 等常见扩展。可以在合成器层自由定制协议行为，例如限制窗口行为、插入布局钩子等。
-/ 后端抽象能力: 支持多个图形后端（EGL, GLES2, WGPU）、输入后端（Winit、libinput）与输出设备管理（DRM/KMS、virtual output）。允许在不同平台（如嵌入式、TTY、X11）运行，底层支持度高。
-/ 灵活可插拔架构: 不像 Weston 或 wlroots 那样强绑定窗口管理逻辑，Smithay 允许合成器设计者自行定义事件循环、窗口模型与渲染策略，非常适合实现平铺式或动态布局系统。
+/ 后端抽象能力: 支持多个图形后端（EGL, GLES2, WGPU）、输入后端（Winit、libinput）以及输出设备管理（DRM/KMS、virtual output）。允许在不同平台（如嵌入式、TTY、X11）运行，底层支持度高。
+/ 灵活可插拔架构: 区别于 Weston 或 wlroots 的高度集成设计，Smithay 并不绑定特定的窗口管理逻辑。开发者可自由定义事件循环、窗口模型与渲染策略，尤其适用于实现平铺式或动态窗口布局系统。
 / 社区活跃、长期演进: Smithay 拥有稳定的维护团队，与 Mesa、wlroots 社区保持良好协作，能持续跟进最新的 Wayland 标准与实践。
 
 
