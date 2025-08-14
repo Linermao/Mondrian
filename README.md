@@ -47,6 +47,8 @@
 
 ppt与视频链接：[https://pan.baidu.com/s/1rbNUo9MPMoF6pzZGAx5mGw?pwd=51vr](https://pan.baidu.com/s/1rbNUo9MPMoF6pzZGAx5mGw?pwd=51vr)
 
+![cover](wiki/README/cover.png)
+
 ![frame](wiki/README/frame.png)
 
 ![introduce](wiki/README/introduce.png)
