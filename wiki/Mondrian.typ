@@ -1,4 +1,4 @@
-#import "@preview/zh-kit:0.1.0": * 
+#import "@preview/zh-kit:0.1.0": *
 #import "@preview/zebraw:0.5.5": *
 
 #show: zebraw
@@ -11,13 +11,13 @@
 #show figure.caption: set text(8.5pt)
 
 #show heading: set block(
-  spacing: 1.5em
+  spacing: 1.5em,
 )
 
-#show link: set text(fill: rgb("#0a84ff")) 
+#show link: set text(fill: rgb("#0a84ff"))
 
 #set page(
-  numbering: "1"
+  numbering: "1",
 )
 
 #set par(
@@ -27,7 +27,7 @@
 )
 
 #set heading(
-  numbering: "1.1",  
+  numbering: "1.1",
 )
 
 // 自定义模式
@@ -39,12 +39,12 @@
 }
 
 #let standout(body) = text(
-  [_*#body*_]
+  [_*#body*_],
 )
 
 #let standout_color(body) = text(
   fill: rgb("#0a84ff"),
-  [_*#body*_]
+  [_*#body*_],
 )
 
 #let codebox(lang, content) = rect(
@@ -53,44 +53,16 @@
   radius: 2pt,
   inset: 8pt,
   [
-    #{ 
-      content 
+    #{
+      content
     }
-  ]
+  ],
 )
 
 
 // 封面
-#align(center)[
-  #image("introduce/logo.png", width: 80%)
 
-  #linebreak()#linebreak()#linebreak()#linebreak()#linebreak()
-  
-  #par(leading: 1em, spacing: 10em)[  
-    #text(
-      weight: "bold",
-      size: 28pt
-    )[_Mondrian_]
-    \
-    #text(size: 14pt)[Wayland 协议下的平铺式桌面显示系统]
-  ]
-
-  #linebreak()
-
-  #text(size: 14pt)[队伍名称： 进栈不排队]
-
-  #text(size: 14pt)[指导老师： 周旭，王俊美]
-
-  #text(size: 14pt)[参赛人员： 林灿，吴悦怡，陈序]
-
-  #linebreak()
-
-  #text(size: 14pt)[2025 年 8 月]
-]
-
-#pagebreak()
-
-#fullpage-image("/wiki/README/cover.png")
+#fullpage-image("/wiki/introduce/cover.png")
 
 #pagebreak()
 
@@ -113,18 +85,18 @@
 
 #figure(
   image("introduce/show1.png", width: 100%),
-  caption: "项目运行效果演示图"
+  caption: "项目运行效果演示图",
 )
 
 #figure(
   image("introduce/show2.png", width: 100%),
-  caption: "项目运行效果演示图"
+  caption: "项目运行效果演示图",
 )
 
 
 == 项目开发进度
 
-项目自 3 月 25 日启动，初期集中精力对现有 Wayland 合成器框架（如 wlroots、Smithay 等）进行了调研与试验，结合项目可控性与扩展性要求，最终选择 #standout("Rust + Smithay") 作为核心技术栈。 
+项目自 3 月 25 日启动，初期集中精力对现有 Wayland 合成器框架（如 wlroots、Smithay 等）进行了调研与试验，结合项目可控性与扩展性要求，最终选择 #standout("Rust + Smithay") 作为核心技术栈。
 
 截至初赛阶段( 6 月 30 日 )，本项目已完成主要基础功能的开发，现已能够在主流 Linux 发行版上部署运行，具备日常使用的基本可用性。
 
@@ -142,10 +114,10 @@
 
 #align(center)[
   #table(
-    columns: (2),
+    columns: 2,
     align: center,
     inset: 5pt,
-    
+
     [*多显示器管理*], [支持动态热插拔与独立配置],
     [*多输入设备支持*], [提升对触控板、手写板等外设的适配能力],
     [*更优秀的平铺布局方案*], [允许自由切换与自定义排版],
@@ -208,7 +180,7 @@ proj340 - 实现一个简单的平铺式管理的Wayland合成器
 
 #figure(
   image("introduce/linux图形人机交互.png", width: 100%),
-  caption: "linux图形人机交互"
+  caption: "linux图形人机交互",
 )
 
 == Wayland 协议与 X11 协议
@@ -239,7 +211,7 @@ _*用户层*_
 
 #figure(
   image("introduce/linux图形栈.png", width: 70%),
-  caption: "linux图形栈"
+  caption: "linux图形栈",
 )
 
 === Wayland 协议
@@ -251,7 +223,7 @@ Compositor so Display Server：
 - 管理窗口、图像合成与缓冲交换。
 - 接收输入事件，并直接分发至相应的客户端。
 - 实现窗口管理逻辑（如平铺、浮动等）。
-   
+
 Client：
 
 - 负责自行渲染窗口内容（通过 GPU 渲染或 CPU 绘图）。
@@ -266,7 +238,7 @@ Protocols：
 
 #figure(
   image("introduce/wayland.png", width: 60%),
-  caption: "wayland协议示意图"
+  caption: "wayland协议示意图",
 )
 
 === X11 协议
@@ -286,7 +258,7 @@ X11 协议支持网络透明性，即 X Client 和 X Server 可以运行在不�
 
 #figure(
   image("introduce/x11.png", width: 70%),
-  caption: "x11协议示意图"
+  caption: "x11协议示意图",
 )
 
 
@@ -316,10 +288,10 @@ Wayland 协议采用模块化设计，核心协议只定义基础对象（如 wl
 
 #align(center)[
   #table(
-    columns: (2),
+    columns: 2,
     align: center,
     inset: 5pt,
-    
+
     [*xdg-shell*], [提供桌面窗口接口（如 toplevel/popup）],
     [*wlr-layer-shell*], [支持桌面元素（如面板、壁纸）],
     [*xdg-output*], [扩展输出信息],
@@ -341,12 +313,12 @@ _*原生合成支持*_
 
 #figure(
   image("introduce/stack.png", width: 100%),
-  caption: "堆叠式布局示意图（来自GNOME）"
+  caption: "堆叠式布局示意图（来自GNOME）",
 )
 
 #figure(
   image("introduce/tiled.png", width: 100%),
-  caption: "平铺式布局示意图（来自GNOME）"
+  caption: "平铺式布局示意图（来自GNOME）",
 )
 
 平铺式（Tiling）窗口管理采用高度结构化的布局方式，屏幕被划分为若干区域，每个窗口占据一个不重叠的矩形区域，并根据特定的布局算法自动排列。其核心原则是：
@@ -375,7 +347,7 @@ Smithay 是一个专为构建 Wayland 合成器而设计的 Rust 框架，提供
 
 #figure(
   image("introduce/smithay.png", width: 100%),
-  caption: "smithay github 主页截图"
+  caption: "smithay github 主页截图",
 )
 
 其优势主要体现在以下几个方面：
@@ -516,10 +488,10 @@ event_loop
 
 #align(center)[
   #table(
-    columns: (3),
+    columns: 3,
     align: center,
     inset: 5pt,
-    
+
     [*类型*], [来源], [示例事件],
     [*输入设备*], [libinput], [PointerMotion、KeyboardKey 等],
     [*图形输出*], [DRM/KMS, Winit], [热插拔、显示尺寸改变],
@@ -627,7 +599,7 @@ loop_handle
 
 #figure(
   image("introduce/xdg_shell.png", width: 70%),
-  caption: "xdg_shell协议示意图"
+  caption: "xdg_shell协议示意图",
 )
 
 `xdg-shell` 协议主要围绕以下对象展开：
@@ -822,7 +794,7 @@ event_loop
 === 快捷键的输入流程概览
 
 - Wayland 中键盘事件由 `wl_keyboard`（或 `xkb`）协议触发，最终通过 `InputManager` 处理。
-- 快捷键响应链：  
+- 快捷键响应链：
   `键盘事件 → 按键状态判定（按下/释放） → 匹配组合键 → 执行对应指令`
 
 === 正则匹配：解析指令或快捷命令
@@ -1089,7 +1061,7 @@ pub fn action_keys(&mut self, keys: String, serial: Serial) {
 
 #figure(
   image("introduce/opengl.png", width: 100%),
-  caption: "opengl渲染过程演示图"
+  caption: "opengl渲染过程演示图",
 )
 
 用画廊来举例，会比较容易理解。
@@ -1156,7 +1128,7 @@ DRM 是现代 Linux 图形栈的基础，允许程序绕过传统 X Server，直
 
 #figure(
   image("introduce/DRM.png", width: 100%),
-  caption: "DRM/KMS系统演示图"
+  caption: "DRM/KMS系统演示图",
 )
 
 要想理解 DRM ，首先要理解两个关键子模块的工作内容：
@@ -1182,23 +1154,23 @@ _*KMS（Kernel Mode Setting）*_
 KMS 将整个显示控制器的显示 pipeline 抽象成以下几个部分：
 
 - *Plane（图层）*
-  
+
   每个 plane 表示一块可渲染的图像区域，可独立组合显示输出。plane 分为三类：
-  
+
   - Primary：主图层，必需。对应于整个屏幕内容，通常显示整个帧缓冲区。
   - Cursor：用于显示鼠标光标，通常是一个小图层，支持硬件加速。
   - Overlay：可选的叠加图层，用于视频加速或硬件合成。
 
 - *CRTC（Cathode Ray Tube Controller）*
-  
+
   控制图像从 plane 传送到 encoder，类似一个“图像流控制器”，主要用于管理显示设备的扫描和刷新。一个 CRTC 通常绑定一个主 plane，但也可能支持多个 overlay。
 
 - *Encoder（编码器）*
-  
+
   将图像信号从 GPU 转换为特定格式，如 HDMI、DP、eDP、VGA 等。
 
 - *Connector（连接器）*
-  
+
   表示实际的物理接口（如 HDMI 接口、DisplayPort 接口），对应连接的显示设备（monitor）。
 
 > 🔄 工作流程示意：*_Plane → CRTC → Encoder → Connector → Monitor_*
@@ -1215,7 +1187,7 @@ Wayland 合成器的主要职责是：
 
 #figure(
   image("introduce/wayland-drm.png", width: 70%),
-  caption: "DRM/KMS系统演示图"
+  caption: "DRM/KMS系统演示图",
 )
 
 
@@ -1370,7 +1342,7 @@ impl Tty {
                         .tty()
                         .devices
                         .iter_mut()
-                        .map(|(node, device)| (*node, device)) 
+                        .map(|(node, device)| (*node, device))
                     {
                         device.drm.activate(false).expect("failed to activate drm backend");
                         data.loop_handle.insert_idle(move |data| {
@@ -1494,7 +1466,7 @@ impl Tty {
 
         // initial shader
         render_manager.compile_shaders(&mut renderer.as_gles_renderer());
-    
+
         state.shm_state.update_formats(renderer.shm_formats());
 
         match renderer.bind_wl_display(display_handle) {
@@ -1508,7 +1480,7 @@ impl Tty {
             DmabufFeedbackBuilder::new(self.primary_render_node.dev_id(), dmabuf_formats.clone())
                 .build()
                 .expect("Failed building default dmabuf feedback");
-    
+
         let dmabuf_global = state
             .dmabuf_state
             .create_global_with_default_feedback::<GlobalData>(
@@ -1516,14 +1488,14 @@ impl Tty {
                 &default_feedback,
             );
         self.dmabuf_global = Some(dmabuf_global);
-    
+
         // Update the dmabuf feedbacks for all surfaces
         for device in self.devices.values_mut() {
             for surface in device.surfaces.values_mut() {
                 surface.dmabuf_feedback = surface_dmabuf_feedback(
-                    surface.compositor.surface(), 
-                    &self.primary_render_node, 
-                    &surface.render_node, 
+                    surface.compositor.surface(),
+                    &self.primary_render_node,
+                    &surface.render_node,
                     &mut self.gpu_manager
                 )
             }
@@ -1640,12 +1612,12 @@ flush_client() // 通知客户端渲染下一帧
 - 引入 slotmap（由 slotmap crate 提供的稀疏存储结构），作为节点存储容器，使每个窗口节点可以用稳定的键（Key）进行引用，避免因插入或删除节点而产生的结构失效问题。
 
 - 每个节点中直接维护了与之关联的几个关键字段：
-    - parent：指向其父节点
-    - sibling：标记兄弟节点
+  - parent：指向其父节点
+  - sibling：标记兄弟节点
 
 #figure(
   image("introduce/slotmap.png", width: 60%),
-  caption: "Slotmap"
+  caption: "Slotmap",
 )
 
 通过这些显式的指针式引用关系，窗口之间的逻辑依赖不再依赖结构遍历获取，从而实现：
@@ -1665,11 +1637,11 @@ use slotmap::{new_key_type, SlotMap};
 use smithay::{desktop::Window, utils::{Logical, Rectangle}};
 
 use crate::{
-    layout::Direction, 
+    layout::Direction,
     manager::{
         animation::{
             AnimationManager, AnimationType
-        }, 
+        },
         window::WindowExt
     }
 };
@@ -1723,7 +1695,7 @@ pub struct TiledTree {
 
 #figure(
   image("introduce/focus.png", width: 60%),
-  caption: "动态平铺示意图"
+  caption: "动态平铺示意图",
 )
 
 动态平铺的优势：
@@ -1756,11 +1728,11 @@ pub struct TiledTree {
 
 ```rs
 pub fn insert(
-    &mut self, 
-    target: &Window, 
-    direction: Direction, 
-    window: Window, 
-    is_favour: bool, 
+    &mut self,
+    target: &Window,
+    direction: Direction,
+    window: Window,
+    is_favour: bool,
     animation_manager: &mut AnimationManager
 ) -> bool {
     /*
@@ -1786,18 +1758,18 @@ pub fn insert(
 
             // insert target_copy and new nodes
             let target_copy_id = self.nodes.insert(
-                NodeData::Node { 
-                    window: old_window.clone(), 
-                    sibling: NodeId::default(), 
+                NodeData::Node {
+                    window: old_window.clone(),
+                    sibling: NodeId::default(),
                     parent: target_id
-                }  
+                }
             );
 
             let new_id = self.nodes.insert(
-                NodeData::Node { 
-                    window: window.clone(), 
-                    sibling: target_copy_id, 
-                    parent: target_id 
+                NodeData::Node {
+                    window: window.clone(),
+                    sibling: target_copy_id,
+                    parent: target_id
                 }
             );
 
@@ -1820,13 +1792,13 @@ pub fn insert(
             }
 
             if let Some(target_data) = self.nodes.get_mut(target_id) {
-                *target_data = NodeData::Container { 
-                    elements, 
+                *target_data = NodeData::Container {
+                    elements,
                     rect: old_rect,
                     offset: 0,
-                    sibling: old_sibling, 
-                    parent: old_parent, 
-                    direction 
+                    sibling: old_sibling,
+                    parent: old_parent,
+                    direction
                 };
             }
 
@@ -1864,7 +1836,7 @@ pub fn insert(
                     Duration::from_millis(45),
                     AnimationType::OvershootBounce,
                 );
-                
+
             }
         }
         return true;
@@ -1886,9 +1858,9 @@ pub fn new_with_first_node(window: Window, root_rect: Rectangle<i32, Logical>, g
     let mut nodes = SlotMap::with_key();
     let mut windows = IndexMap::new();
 
-    let first_node = NodeData::Node { 
-        window: window.clone(), 
-        sibling: NodeId::default(), 
+    let first_node = NodeData::Node {
+        window: window.clone(),
+        sibling: NodeId::default(),
         parent: NodeId::default()
     };
 
@@ -1913,8 +1885,8 @@ pub fn new_with_first_node(window: Window, root_rect: Rectangle<i32, Logical>, g
         AnimationType::EaseInOutQuad,
     );
 
-    Self { 
-        nodes, 
+    Self {
+        nodes,
         root: first_id,
 
         windows,
@@ -1990,14 +1962,14 @@ pub fn remove(&mut self, target: &Window, animation_manager: &mut AnimationManag
                         if let Some(NodeData::Container { rect: parent_rect, sibling: parent_sibling, parent: parent_parent, .. }) = self.nodes.get(target_parent) {
                             let sibling_elements = sibling_elements.clone();
                             let parent_rect = parent_rect.clone();
-                            
-                            self.nodes[target_parent] = NodeData::Container { 
-                                elements: sibling_elements.clone(), 
-                                rect: parent_rect.clone(), 
+
+                            self.nodes[target_parent] = NodeData::Container {
+                                elements: sibling_elements.clone(),
+                                rect: parent_rect.clone(),
                                 offset: sibling_offset.clone(),
 
-                                sibling: parent_sibling.clone(), 
-                                parent: parent_parent.clone(), 
+                                sibling: parent_sibling.clone(),
+                                parent: parent_parent.clone(),
                                 direction: sibling_direction.clone()
                             };
 
@@ -2033,7 +2005,7 @@ pub fn remove(&mut self, target: &Window, animation_manager: &mut AnimationManag
 
 #figure(
   image("introduce/resize.png", width: 80%),
-  caption: "resize 操作"
+  caption: "resize 操作",
 )
 
 左侧为当前屏幕中的窗口布局，右侧展示其对应的平铺树结构。在这种结构中，每一个容器节点（Container）代表一个空间划分操作，而叶子节点对应具体的窗口。
@@ -2079,7 +2051,7 @@ fn update_rect_recursive(&mut self, node_id: NodeId, new_rect: Rectangle<i32, Lo
                     *rect = new_rect;
 
                     let (rect_1, rect_2) = split_rect(new_rect, direction.clone(), offset.clone(), self.gap, false);
-                    
+
                     let children = elements.clone();
                     for (child_id, sub_rect) in children.into_iter().zip([rect_1, rect_2]) {
                         self.update_rect_recursive(child_id, sub_rect, animation_manager);
@@ -2119,7 +2091,7 @@ Container {
 
 所以 find_max_parent 的操作实际上就是：
 
-1. 根据当前的 parent，判断 resize 操作的方向与 parent 的方向是否一致，如果一致则执行 2，如果不一致，则直接执行 3 
+1. 根据当前的 parent，判断 resize 操作的方向与 parent 的方向是否一致，如果一致则执行 2，如果不一致，则直接执行 3
 2. 根据 is_favour 判断 +1, -1（true则是左或者上），如果值存在，则将当前的 parent 作为 max parent，更新 offset 即可，若不存在，执行 3
 3. 找到 parent 的 parent，将原 parent 作为节点，继续根据 is_favour 和 parent 的方向执行 2 操作，直到遇到 root 节点。
 
@@ -2145,7 +2117,7 @@ fn find_neighbor(&self, node_id: NodeId, direction: Direction, is_favour: bool) 
             },
             NodeData::Container { parent, .. } => {
                 parent.clone()
-            }  
+            }
         };
 
         if let Some(NodeData::Container { elements, direction: parent_direction, .. }) = self.nodes.get(parent) {
@@ -2219,7 +2191,7 @@ resize 的操作可以将 container 视为一个 node，进行整体的操作，
 
 #figure(
   image("introduce/exchange.png", width: 80%),
-  caption: "exchange 操作"
+  caption: "exchange 操作",
 )
 
 如果此时要让 3号和左侧窗口交换，显然应该与4号进行交换，根据 resize 的 find_neighbor() 函数，我们只能找到包含 1,4 的 contianer，因此还需要做以下的事情：
@@ -2315,7 +2287,7 @@ pub fn exchange(&mut self, target: &Window, direction: Direction, is_favour: boo
 
                 let target_rect = target_window_copy.get_rect().unwrap();
                 let neighbor_rect = neighbor_window_copy.get_rect().unwrap();
-                
+
                 // exchange rect cache
                 target_window_copy.set_rect_cache(neighbor_rect);
                 neighbor_window_copy.set_rect_cache(target_rect);
@@ -2379,13 +2351,13 @@ pub fn expansion(&self, animation_manager: &mut AnimationManager) {
     let screen = self.root_rect;
 
     let row_counts = split_rows(total, max_per_row);
-    
+
     #[cfg(feature = "trace_layout")]
     info!("expansion row counts: {:?}", row_counts);
 
     let row_count = row_counts.len();
     let win_height = (screen.size.h - gap * (row_count - 1) as i32) / row_count as i32;
-    
+
     let total_gap = gap * (max_per_row + 1 - 1) as i32;
     let win_width = (screen.size.w - total_gap) / (max_per_row + 1) as i32;
 
@@ -2399,7 +2371,7 @@ pub fn expansion(&self, animation_manager: &mut AnimationManager) {
         for i in 0..cols {
             let x = start_x + i as i32 * (win_width + gap);
             let rect = Rectangle {loc: (x, y).into(), size: (win_width, win_height).into()};
-            
+
             #[cfg(feature = "trace_layout")]
             info!("expansion rect: {:?}", rect);
 
@@ -2408,7 +2380,7 @@ pub fn expansion(&self, animation_manager: &mut AnimationManager) {
                     .user_data()
                     .get::<ExpansionCache>()
                     .map(|guard| guard.0.borrow().is_none())
-                    .unwrap_or(true) 
+                    .unwrap_or(true)
                 {
                     let window_rect = window.get_rect().unwrap();
 
@@ -2444,7 +2416,7 @@ Mondrian 提供更改 Container direction 的操作，比如将水平分布的�
 pub fn invert(&mut self, target: &Window, animation_manager: &mut AnimationManager) {
     /*
         invert parent (Container) direction
-        update recursive 
+        update recursive
     */
 
     let _span = tracy_client::span!("tiled tree: invert window");
@@ -2516,7 +2488,7 @@ pub fn switch_layout(&mut self, window: &Window, pointer_loc: Point<f64, Logical
 
 #figure(
   image("introduce/workspace.png", width: 100%),
-  caption: "workspace"
+  caption: "workspace",
 )
 
 每个工作区通常包含一组逻辑相关的应用窗口，用户可以通过快捷键在各个工作区间快速切换，达到在不同任务间高效上下文切换的效果。这种方式不仅提升了操作效率，也避免了窗口层叠带来的混乱，使用户始终保持对当前活动窗口的聚焦。
@@ -2534,7 +2506,7 @@ workspace 由 WorkspaceManager 管理， WorkspaceManager 管理多个 Workspace
 pub struct Workspace {
     workspace_id: WorkspaceId,
 
-    scheme: TiledScheme, 
+    scheme: TiledScheme,
     container_tree: ContainerTree,
 
     output_working_geometry: Rectangle<i32, Logical>,
@@ -2561,7 +2533,7 @@ Workspace 主要与 WindowManager 进行联动，用来判断某个窗口是否�
             self.window_workspace.get(*window) == Some(&workspace_id)
         })
     }
-    
+
     pub fn window_under(&self, pointer_loc: Point<f64, Logical>, workspace_id: WorkspaceId) -> Option<Window> {
         for window in &self.mapped {
             if Some(&workspace_id) != self.window_workspace.get(window) {
@@ -2606,7 +2578,7 @@ Workspace 主要与 WindowManager 进行联动，用来判断某个窗口是否�
 
 为实现动画效果，*_Mondrian_ 并不直接修改窗口的最终状态数据*，而是采用一种 *“状态解耦、渲染驱动”* 的设计模式：
 
-在触发需要动画的操作（如窗口移动、布局切换）时，实际的数据状态立即更新为目标值；  
+在触发需要动画的操作（如窗口移动、布局切换）时，实际的数据状态立即更新为目标值；
 
 然而，在渲染阶段，窗口的位置与属性并非立刻反映为最终状态，而是通过插值计算出一个*中间状态*，并随着时间推进逐帧更新，直到过渡完成。
 
@@ -2803,9 +2775,9 @@ for window in windows {
                 elements.extend(self.get_border_render_elements(renderer, rect));
             }
         }
-        
+
         let render_loc = (rect.loc - window.geometry().loc).to_physical_precise_round(output_scale);
-        
+
         // set alpha
         let mut alpha  = 0.85;
         if let WindowLayout::Floating = window.get_layout() {
@@ -2937,10 +2909,10 @@ impl RenderManager {
         // Then Windows, Borders and Layer-shell
         output_elements.extend(
             self.get_windows_render_elements(
-                    renderer, 
-                    output_manager, 
-                    workspace_manager, 
-                    window_manager, 
+                    renderer,
+                    output_manager,
+                    workspace_manager,
+                    window_manager,
                     input_manager,
                     animation_manager,
                 )
@@ -3083,9 +3055,9 @@ pub fn get_windows_render_elements<R: MondrianRenderer>(
                 elements.extend(self.get_border_render_elements(renderer, rect));
             }
         }
-        
+
         let render_loc = (rect.loc - window.geometry().loc).to_physical_precise_round(output_scale);
-        
+
         // set alpha
         let mut alpha  = 0.85;
         if let WindowLayout::Floating = window.get_layout() {
@@ -3272,7 +3244,7 @@ Mondrian 为 NixOS 的开发制作了开箱即用的开发环境与完整配置 
 
 #figure(
   image("introduce/layer_shell.png", width: 70%),
-  caption: "layer_shell 协议示意图"
+  caption: "layer_shell 协议示意图",
 )
 
 `layer-shell` 允许客户端以特定“图层”（layer）方式向合成器注册自身位置、对齐方式、屏幕边缘锚定，以及交互区域排除等属性，用于构建如：
@@ -3396,7 +3368,7 @@ impl GlobalData {
 
 #figure(
   image("introduce/steam.png", width: 100%),
-  caption: "x应用测试"
+  caption: "x应用测试",
 )
 
 XWayland 是一个运行在 Wayland 上的 X 服务器（Xwayland 进程），其核心作用是：
@@ -3408,7 +3380,7 @@ XWayland 是一个运行在 Wayland 上的 X 服务器（Xwayland 进程），�
 
 #figure(
   image("introduce/xwayland.png", width: 100%),
-  caption: "Xwayland 通信实现"
+  caption: "Xwayland 通信实现",
 )
 
 在 Mondrian 中，已成功集成对 XWayland 的支持，流程如下：
@@ -3427,10 +3399,10 @@ XWayland 是一个运行在 Wayland 上的 X 服务器（Xwayland 进程），�
 
 *技术难点与解决方案：*
 
-/ XWayland 启动时机:由 compositor 主动监听并拉起，保证连接时序正确
-/ 输入事件的映射:与 Seat 统一处理，保持输入行为一致性
-/ 窗口行为控制:提供 hooks 管理 XWayland surface 的生命周期与属性（例如 override_redirect）
-/ 与原生窗口混合管理:所有窗口统一进入 layout 树，实现视觉一致性
+/ XWayland 启动时机: 由 compositor 主动监听并拉起，保证连接时序正确
+/ 输入事件的映射: 与 Seat 统一处理，保持输入行为一致性
+/ 窗口行为控制: 提供 hooks 管理 XWayland surface 的生命周期与属性（例如 override_redirect）
+/ 与原生窗口混合管理: 所有窗口统一进入 layout 树，实现视觉一致性
 
 ```rust
 impl XwmHandler for GlobalData {
@@ -3449,7 +3421,7 @@ impl XwmHandler for GlobalData {
                         WindowLayout::Floating
                     } else {
                         WindowLayout::Tiled
-                    } 
+                    }
                 }
                 _ => {
                     WindowLayout::Floating
@@ -3576,9 +3548,9 @@ impl XwmHandler for GlobalData {
         if let Some(window) = self.window_manager.get_mapped(&surface.clone().into()) {
             let output = self.output_manager.current_output();
             let output_rect = self.output_manager.output_geometry(output).unwrap();
-            
+
             let _ = surface.configure(output_rect);
-            
+
             surface.set_fullscreen(true).unwrap();
             self.fullscreen(window, output);
         }
@@ -3609,7 +3581,7 @@ impl XwmHandler for GlobalData {
                 return
             }
         };
-        
+
         let start_data = match pointer.grab_start_data() {
             Some(start_data) => start_data,
             None => {
@@ -3633,7 +3605,7 @@ impl XwmHandler for GlobalData {
                 return
             }
         };
-        
+
         let start_data = match pointer.grab_start_data() {
             Some(start_data) => start_data,
             None => {
@@ -3692,17 +3664,17 @@ impl XwmHandler for GlobalData {
 
 #figure(
   image("introduce/heapstrack1.png", width: 100%),
-  caption: "heap strack cpu 与内存使用测试"
+  caption: "heap strack cpu 与内存使用测试",
 )
 
 #figure(
   image("introduce/heapstrack2.png", width: 60%),
-  caption: "heap strack cpu 与内存使用测试"
+  caption: "heap strack cpu 与内存使用测试",
 )
 
 #figure(
   image("introduce/heapstrack3.png", width: 60%),
-  caption: "heap strack cpu 与内存使用测试"
+  caption: "heap strack cpu 与内存使用测试",
 )
 
 使用 heap strack 追踪本项目的运行，执行三分钟左右，最终得到 memory consumption 大约在 204.8kB，对于动辄上百MB的桌面环境来说，此内存使用量几乎可以忽略不计，并且在开始创建完成后能保持稳定（此时正执行视频播放与帧率测试）。
@@ -3711,18 +3683,18 @@ RSS 的使用量较大，推测是加载了 OpenGL、图形驱动、Wayland libs
 
 检查热力图发现，大部分的开销来自 client 与 compositor 的通信损耗，以及 compositor 进行事件处理的损耗。还有一部分则是来自 render manager 收集 wl_surface 导致的开销。
 
-== Tracy profilter 跟踪分析 
+== Tracy profilter 跟踪分析
 
 tracy 可以用来方便的跟踪某个函数的生命周期与执行时间，在代码函数开头设置 span，等到函数结束退出，自动释放生命周期，这期间的信息会被 tracy 捕获。
 
 #figure(
   image("introduce/tracy1.png", width: 100%),
-  caption: "Tracy profilter 跟踪分析"
+  caption: "Tracy profilter 跟踪分析",
 )
 
 #figure(
   image("introduce/tracy2.png", width: 80%),
-  caption: "Tracy profilter 跟踪分析"
+  caption: "Tracy profilter 跟踪分析",
 )
 
 在 Mondrian 中，耗时最大的操作是 render 与 tiled tree 的相关操作。
@@ -3733,12 +3705,12 @@ tracy 可以用来方便的跟踪某个函数的生命周期与执行时间，�
 
 #figure(
   image("introduce/tracy4.png", width: 100%),
-  caption: "Tracy profilter 跟踪分析"
+  caption: "Tracy profilter 跟踪分析",
 )
 
 #figure(
   image("introduce/tracy5.png", width: 100%),
-  caption: "Tracy profilter 跟踪分析"
+  caption: "Tracy profilter 跟踪分析",
 )
 
 在 TTY 模式下，主要跟踪查看 VBlank 的实现情况。实测结果表明，程序在接收到 vBlank 通知后，才开始执行下一帧的渲染，并在渲染完成后向客户端发送frame callback，整体流程符合协议设计，逻辑验证正常。
@@ -3747,7 +3719,7 @@ tracy 可以用来方便的跟踪某个函数的生命周期与执行时间，�
 
 #figure(
   image("introduce/GPU.png", width: 100%),
-  caption: "Tracy profilter 跟踪分析"
+  caption: "Tracy profilter 跟踪分析",
 )
 
 整体来看，Mondrian 在稳态渲染场景下可以保持 2ms 内响应，但在高频窗口管理下，存在由 SlotMap 引起的布局延迟和内存瞬时暴涨问题，后续将考虑引入更深入的优化。
@@ -3769,22 +3741,22 @@ glmark2 本身主要是一个 OpenGL (X11/EGL) 下的基准测试工具，我们
 
 #figure(
   image("introduce/glmark2.png", width: 100%),
-  caption: "glmark2 空窗测试"
+  caption: "glmark2 空窗测试",
 )
 
 #figure(
   image("introduce/glmark2-multi.png", width: 100%),
-  caption: "glmark2 正常情况测试"
+  caption: "glmark2 正常情况测试",
 )
 
 平均分数比较：
 
 #align(center)[
   #table(
-    columns: (3),
+    columns: 3,
     align: center,
     inset: 5pt,
-    
+
     [*程序*], [空窗下分数], [正常窗口下分数],
     [*hyprland*], [5977], [5927],
     [*tty模式*], [5234], [5163],
