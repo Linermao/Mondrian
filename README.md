@@ -21,7 +21,6 @@
   - [项目运行](#项目运行)
   - [项目结构](#项目结构)
   - [项目进度](#项目进度)
-- [性能分析](#性能分析)
 - [参考文件](#参考文件)
 - [贡献者](#贡献者)
 
@@ -43,9 +42,13 @@
 
 本项目基于 [Smithay](https://github.com/Smithay/smithay.git) 使用 Rust 开发了一个使用 Wayland 协议的平铺式桌面显示系统。项目能够在裸机终端中自行初始化 DRM/KMS 图形管线，并通过 GBM 和 EGL 建立 GPU 渲染上下文，使用 OpenGLES 进行硬件加速合成显示。启动后该 Compositor 接管系统图形输出，并成为客户端程序（如终端模拟器、浏览器）的 Wayland 显示服务。
 
-[项目文档](./wiki/Mondrian.pdf)
+项目文档：[https://pan.baidu.com/s/1U_EBPGIy_3oCA5cpt2YrbA?pwd=b65q](https://pan.baidu.com/s/1U_EBPGIy_3oCA5cpt2YrbA?pwd=b65q)
 
-ppt与视频链接：[https://pan.baidu.com/s/1rbNUo9MPMoF6pzZGAx5mGw?pwd=51vr](https://pan.baidu.com/s/1rbNUo9MPMoF6pzZGAx5mGw?pwd=51vr)
+项目PPT介绍：[https://pan.baidu.com/s/1oBw-JxJG8-P7jIj_eGjZiw?pwd=jd4i](https://pan.baidu.com/s/1oBw-JxJG8-P7jIj_eGjZiw?pwd=jd4i)
+
+项目演示视频：[https://pan.baidu.com/s/1seKYBGuiWTIpNHu8iFY14A?pwd=9tck](https://pan.baidu.com/s/1seKYBGuiWTIpNHu8iFY14A?pwd=9tck)
+
+项目实现指南：[https://linermao.github.io/wayland-compositor-smithay/](https://linermao.github.io/wayland-compositor-smithay/)
 
 ![cover](wiki/README/cover.png)
 

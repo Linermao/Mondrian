@@ -17,6 +17,9 @@
 #show link: set text(fill: rgb("#0a84ff"))
 
 #set page(
+  header: align(right)[
+    Mondrian - a tiled wayland compositor
+  ],
   numbering: "1",
 )
 
@@ -30,8 +33,22 @@
   numbering: "1.1",
 )
 
-// 自定义模式
+#show table.cell.where(x: 0): set text(style: "italic")
+#show table.cell.where(y: 0): set text(style: "normal", weight: "bold")
 
+// See the strokes section for details on this!
+#let frame(stroke) = (x, y) => (
+  left: 0pt,
+  right: 0pt,
+  top: if y < 2 { stroke } else { 0pt },
+  bottom: stroke,
+)
+
+#set table(
+  stroke: frame(rgb("21222C")),
+)
+
+// 自定义模式
 #let fullpage-image(path) = {
   show: set page(margin: 0pt)
   image(path, width: 100%, height: 100%, fit: "cover")
@@ -59,14 +76,50 @@
   ],
 )
 
-
 // 封面
 
 #fullpage-image("/wiki/introduce/cover.png")
 
 #pagebreak()
 
-#outline(depth: 2)
+// 摘要
+
+#align(center)[
+  #text(size: 16pt, weight: "bold")[动态平铺式Wayland合成器]
+]
+
+摘要： 本项目基于 Rust 语言与 Smithay 框架，构建了一个符合 Wayland 协议的平铺式桌面显示系统。系统能够在裸机终端环境下自主初始化 DRM/KMS 图形管线，并通过 GBM 与 EGL 建立 GPU 渲染上下文，利用 OpenGLES 实现硬件加速合成显示。启动后，合成器接管系统图形输出，为终端模拟器、浏览器等客户端程序提供高效的 Wayland 显示服务。本项目已支持多种后端（如 DRM/KMS 与 Winit），显著提升了跨硬件和多环境的适配能力。经过严格测试，系统运行稳定，崩溃情况基本消除，具备良好的容错机制。同时，集成 XWayland 支持，可无缝运行绝大多数基于 X11 的传统 Linux 图形应用。在实际环境测试中，超过 90% 的常见桌面程序（如 Firefox、VS Code 等）均能稳定运行，从而保证用户在迁移至本系统时不会牺牲现有生态体验。
+
+综上所述，本项目已从原型阶段迈向实用化，展现出作为主力桌面环境的应用潜力。
+
+关键词： 平铺式窗口管理；Wayland；Smithay；Display Server；XWayland
+
+#align(center)[
+  #text(size: 16pt, weight: "bold")[Dynamic tiled Wayland Compositor]
+]
+
+Abstract:
+This project implements a tiled desktop display system based on the Rust programming language and the Smithay framework, conforming to the Wayland protocol. The compositor is capable of autonomously initializing the DRM/KMS graphics pipeline in bare-metal terminal environments, establishing GPU rendering contexts via GBM and EGL, and performing hardware-accelerated compositing with OpenGLES. Once launched, the compositor takes over system graphics output and provides efficient Wayland display services for client applications such as terminal emulators and web browsers. The system supports multiple backends (e.g., DRM/KMS and Winit), significantly enhancing adaptability across different hardware and environments. Extensive testing demonstrates high runtime stability with negligible crash occurrences and robust fault tolerance. Furthermore, XWayland integration enables seamless execution of most legacy X11-based Linux graphical applications. In practical evaluation, over 90% of common desktop software (including Firefox, VS Code) runs stably, ensuring that users migrating to this system retain compatibility with the existing application ecosystem.
+
+In conclusion, this project has evolved from a prototype into a practical system, demonstrating strong potential to serve as a primary desktop environment.
+
+Keywords: Tiling Window Management; Wayland; Smithay; Display Server; XWayland
+
+#pagebreak()
+
+// 目录
+#align(center)[
+  #outline(depth: 2)
+]
+
+#pagebreak()
+
+// 图目录
+#align(center)[
+  #text(size: 16pt, weight: "bold")[图目录]
+]
+
+#outline(target: figure, title: none)
 
 #pagebreak()
 
@@ -102,41 +155,57 @@
 
 截至决赛阶段（ 8 月 17 日 ）,本项目进一步实现了更多拓展功能，提升了“个性化定制”这一主题任务。开放多种配置接口提供给用户，用户也可以通过自己编写 shell 代码来实现快捷键的拓展响应事件。
 
+#align(center)[
+  #text(size: 10pt)[表1：项目开发里程碑]
+  #table(
+    columns: (1fr, 2fr),
+    align: center,
+    inset: 5pt,
+
+    table.header[日期][功能实现],
+    [2025.3.25], [基础 `compositor` 开发，实现 `client` 与 `compositor`],
+    [2025.3.29], [输入设备交互逻辑实现完成。                          ],
+    [2025.4.16], [优化布局算法，使用 `slotmap` 实现高效动态平铺。     ],
+    [2025.5.20], [完成 `tty` 裸机模式下的直连启动                     ],
+    [2025.6.6 ], [实现窗口动画效果                                    ],
+    [2025.6.19], [完成 `layer-shell` 协议                             ],
+    [2025.7.15], [更新动态平铺二叉树的算法，优化了通信 cache          ],
+    [2025.7.21], [完成 `Xwayland` 协议，现在支持打开 steam 玩游戏了   ],
+  )
+]
+
+
+
 系统现已支持多后端（DRM/KMS、Winit 等），显著提升了跨硬件和多环境适配能力。
 
 在严格测试下，运行时崩溃情况基本被消除，系统具备良好的稳定性与容错机制。同时，本项目已集成 XWayland 支持，能够无缝运行绝大多数基于 X11 的传统 Linux GUI 应用。
 
-实测环境下，约 90% 以上的常见桌面程序（如 Firefox、VS Code、GIMP、LibreOffice 等）均可稳定运行，确保用户在迁移到本系统时不牺牲原有生态体验。
+实测环境下，约 90% 以上的常见桌面程序（如 Firefox、VS Code 等）均可稳定运行，确保用户在迁移到本系统时不牺牲原有生态体验。
 
 这些改进标志着项目已从原型阶段迈向实用性，具备成为主力桌面环境的潜力。
+
+#pagebreak()
 
 在此基础上，为实现更高的性能、更强的可定制性以及更全面的兼容性，后续开发工作将聚焦于以下方向：
 
 #align(center)[
+  #text(size: 10pt)[表2：项目未来开发计划]
   #table(
-    columns: 2,
+    columns: (1fr, 1fr),
     align: center,
     inset: 5pt,
 
-    [*多显示器管理*], [支持动态热插拔与独立配置],
-    [*多输入设备支持*], [提升对触控板、手写板等外设的适配能力],
-    [*更优秀的平铺布局方案*], [允许自由切换与自定义排版],
+    table.header[功能名称][功能描述],
+    [多显示器管理], [支持动态热插拔与独立配置],
+    [多输入设备支持], [提升对触控板、手写板等外设的适配能力],
+    [更优秀的平铺布局方案], [允许自由切换与自定义排版],
   )
 ]
 
-#pagebreak()
 
-== 项目核心功能
+== 项目核心功能与特点
 
-本项目支持在 TTY 模式下直接启动桌面显示系统，基于 DRM/KMS 原生渲染，无需依赖 X 服务或其他 Wayland 合成器进行消息转发。系统启动即加载 Compositor，整体流程轻量高效。
-
-通过内置的快捷键机制，用户可以快速启动常用应用，实现类似传统桌面环境的流畅体验。
-
-项目设计充分考虑了日常使用场景，默认配置开箱即用，支持多任务管理、窗口操作与主题切换。
-
-无需额外学习成本，普通用户也能轻松迁移，无割裂感，真正做到替代主流桌面环境。
-
-== 项目特点
+本项目支持在 TTY 模式下直接启动桌面显示系统，基于 DRM/KMS 原生渲染，无需依赖 X 服务或其他 Wayland 合成器进行消息转发，启动即加载 Compositor 实现轻量高效的整体流程，并通过内置快捷键机制快速启动常用应用，实现类似传统桌面环境的流畅体验，同时充分考虑日常使用场景，默认配置开箱即用，支持多任务管理、窗口操作与主题切换，使普通用户无需额外学习成本即可轻松迁移，无割裂感，真正做到替代主流桌面环境。
 
 / 代码体量: 累计新增代码量超 1.2 万行。
 
@@ -146,7 +215,7 @@
 
 / 个性化与可编程定制能力: 使用统一配置文件控制主题样式、键位绑定、布局策略等，用户亦可通过 shell 脚本绑定快捷键，实现更复杂的自动化操作。
 
-/ 动画与渲染: 自定义过渡动画与渲染逻辑，配合手写 GLSL shader，实现流畅、响应式的交互体验，视觉层次统一且精致。
+/ 动画与统一渲染: 自定义过渡动画与渲染逻辑，配合手写 GLSL shader，实现流畅、响应式的交互体验，视觉层次统一且精致。
 
 
 #pagebreak()
@@ -172,6 +241,63 @@ proj340 - 实现一个简单的平铺式管理的Wayland合成器
 
 程序运行后自动展示一个终端窗口，在其中输入命令可启动其它程序，新打开的Wayland窗口与已有的窗口无遮挡
 
+== 国内外技术调研
+
+=== Wayland 合成器框架分析
+
+==== wlroots
+
+wlroots 是一个 C 语言实现的底层 Wayland 合成器库，提供了完整的渲染、输入、输出管理及协议处理能力。它将复杂的协议实现和硬件抽象封装成模块化接口，使开发者可以快速构建自定义 Wayland 合成器。
+
+优点：
+
+- 成熟稳定，社区活跃，文档丰富；
+- 提供多后端支持（DRM/KMS、Wayland、X11）；
+- 支持扩展协议如 XDG Shell、XWayland。
+
+缺点：
+
+- C 语言实现，需要开发者自行管理内存和安全性；
+- 高度自由的接口意味着应用层需要自行实现布局逻辑和事件管理。
+
+==== Smithay
+
+Smithay 是一个用 Rust 语言实现的 Wayland 合成器框架，设计目标是安全、高性能和模块化。它以 Rust 的类型系统和内存安全特性降低了常见的安全漏洞风险。
+
+优点：
+
+- 提供异步事件处理和安全内存管理；
+- 模块化设计，支持自定义渲染、输入和输出；
+- 易于与 Rust 生态的其他库集成，适合构建高可维护性合成器。
+
+缺点：
+
+- 社区相对 wlroots 小，文档和示例不如 wlroots 丰富；
+- 对 Rust 语言掌握要求较高，学习曲线稍陡。
+
+=== 主流平铺式窗口管理器实现分析
+/ i3: 基于 X11 的平铺式窗口管理器，采用树形布局管理窗口；通过配置文件定义快捷键和布局策略，轻量且灵活；但是不支持 Wayland，需要 XWayland 转发。
+/ sway: i3 的 Wayland 版本，兼容 i3 配置；基于 wlroots 提供的底层抽象，实现 XDG Shell 和 XWayland 支持；支持多显示器管理、动态平铺、浮动窗口切换，适合现代桌面需求。
+/ hyprland: 现代平铺/浮动混合布局合成器；使用 wlroots 实现高性能 GPU 合成、动态平铺动画、可扩展配置系统；提供 Lua 脚本扩展，强调用户可自定义布局和交互逻辑。
+
+=== 国内桌面管理器发展现状
+
+==== Deepin Desktop Environment (DDE)
+
+DDE 主要采用浮动窗口管理，但在 Wayland 支持下引入了 Treeland 平铺管理实验性模块；
+
+Treeland 旨在优化多窗口和多任务处理，通过平铺布局提供更高的空间利用率，同时兼顾用户操作习惯，当前处于实验阶段，对开发者和用户来说可用性仍在优化中。
+
+==== 其他国产桌面方案
+
+麒麟桌面、Ubuntu Kylin 等均以浮动式窗口管理为主；对 Wayland 支持尚在完善，平铺式布局多为实验性或社区项目；国内桌面管理器普遍关注易用性和美观性，对平铺式高效管理的研究相对不足。
+
+=== 总结
+
+综上所述，国外平铺式窗口管理器如 i3、sway、hyprland 和 xmonad 已形成成熟实现，布局多采用树形或容器结构，高效管理窗口；在 Wayland 合成器开发上，wlroots 提供稳定成熟的 C 库支持，适合快速原型，而 Smithay 利用 Rust 的安全特性和模块化设计适合高可维护性系统；国内桌面管理器主要以浮动式为主，但 Deepin 的 Treeland 平铺实验模块为高效窗口管理提供了参考，实现方式和用户体验仍需进一步优化。
+
+#pagebreak()
+
 == Linux 图形栈
 
 人通过感知和操作与电脑交流，电脑通过硬件设备获取指令、给出反馈，再由系统软件进行翻译和执行。
@@ -179,9 +305,120 @@ proj340 - 实现一个简单的平铺式管理的Wayland合成器
 整个系统围绕着 *“输入 → 处理 → 输出”* 的闭环进行工作，人类与计算机通过输入设备产生指令，经内核调度、用户态处理，再输出至显示设备，从而完成一次完整的交互过程。
 
 #figure(
-  image("introduce/linux图形人机交互.png", width: 100%),
+  image("introduce/linux图形人机交互.png", width: 80%),
   caption: "linux图形人机交互",
 )
+
+=== Linux 图形栈核心技术组件
+
+#figure(
+  image("introduce/opengl.png", width: 80%),
+  caption: "opengl渲染过程演示图",
+)
+
+==== OpenGL/GLES
+
+OpenGL（Open Graphics Library） 与其精简版 OpenGL ES（Embedded Systems） 是广泛使用的跨平台图形渲染 API，用于执行图形计算和渲染操作。在嵌入式或资源受限的环境中，OpenGL ES 更为常用，其接口更加轻量，适合直接在 TTY 裸机模式下运行。
+
+在本项目中，OpenGL ES 被用于执行 GPU 加速的图形渲染任务。具体包括：
+
+- 几何图形的绘制（如窗口、装饰、阴影）；
+- 着色器程序的编译与执行；
+- 将渲染内容输出到帧缓冲（Framebuffer）中，供后续显示。
+
+在 TTY 裸机模式下，合成器通过 OpenGL ES 执行图形绘制操作，如几何图元绘制、纹理映射和着色器执行，最终将图像渲染到 GPU 管理的缓冲区（Framebuffer）中。
+
+==== EGL
+
+EGL 是连接 OpenGL ES 与本地窗口系统（如 X11、Wayland、或裸设备如 GBM）的中间接口库。其职责包括：
+
+- 初始化图形上下文；
+- 创建渲染表面（EGLSurface）；
+- 在渲染器与底层硬件（GBM、DRM）之间建立连接；
+- 管理 buffer swap（如 eglSwapBuffers()）与同步机制。
+
+在 TTY 环境中，EGL 通常与 GBM 配合使用，将 GPU buffer 分配出来供 OpenGL ES 使用，建立渲染到显示设备之间的桥梁。
+
+==== GBM（Generic Buffer Management）
+
+GBM 是 Mesa 提供的一个用于和内核 DRM 系统交互的库，它的主要功能是：
+
+- 分配可被 GPU 渲染的缓冲区（bo：buffer object）；
+- 将这些缓冲区导出为 DMA-BUF handle，用于与 DRM 或其他进程共享；
+- 为 EGL 提供可渲染的 EGLNativeWindowType。
+
+GBM 允许在没有窗口系统的场景下（如 TTY 模式）创建 OpenGL 可用的 framebuffer，从而支持嵌入式系统和裸机合成器的图形输出。
+
+==== Mesa3D
+
+Mesa3D 是开源图形栈的核心，提供了 OpenGL、OpenGL ES、EGL、GBM 等多个图形接口的完整实现。它在用户空间运行，并与内核空间的 DRM 驱动协同工作。
+
+Mesa 提供以下功能：
+
+- 实现 OpenGL / GLES API，并将其转译为 GPU 硬件可识别的命令；
+- 管理 shader 编译、状态机、纹理、缓冲区等所有渲染细节；
+- 实现 GBM 与 DRM 的绑定，支持 buffer 分配与传输；
+- 调度 page flip 请求，通过 DRM 与显示硬件同步。
+
+==== DRM（Direct Rendering Manager）
+
+*直接渲染管理器*（Direct Rendering Manager，缩写为 DRM）是 Linux 内核图形子系统的一部分，负责与 GPU（图形处理单元）通信。它允许用户空间程序（如图形服务器或 Wayland compositor）通过内核公开的接口，完成以下关键任务：
+
+- 分配和管理图形缓冲区（buffer）
+- 设置显示模式（分辨率、刷新率等）
+- 与显示设备（显示器）建立连接
+- 将 GPU 渲染结果显示到屏幕上 - PageFlip 页面翻转
+
+DRM 是现代 Linux 图形栈的基础，允许程序绕过传统 X Server，直接操作 GPU，形成了“GPU 直连”的渲染路径。
+
+#figure(
+  image("introduce/DRM.png", width: 80%),
+  caption: "DRM/KMS系统演示图",
+)
+
+_*GEM（Graphic Execution Manager）*_
+
+*图形执行管理器*（Graphics Execution Manager，简称 GEM）是 DRM 子系统中的另一个重要模块，主要用于内存管理，即如何分配和管理 GPU 可访问的图形缓冲区（buffer）。
+
+它提供了如下功能：
+
+- 为用户空间分配 GPU 使用的显存或系统内存缓冲区
+- 提供缓冲区在用户空间与内核空间之间的共享与引用机制
+- 管理缓冲区的生命周期和同步（避免读写冲突）
+
+帧缓冲区对象（framebuffer）是帧内存对象的抽象，它提供了像素源给到 CRTC。帧缓冲区依赖于底层内存管理器分配内存。
+
+在程序中，使用 DRM 接口创建 framebuffer、EGL 创建的渲染目标，底层通常都通过 GEM 管理。GEM 的存在使得多种图形 API（OpenGL ES、Vulkan、视频解码等）可以统一、高效地访问 GPU 资源。
+
+_*KMS（Kernel Mode Setting）*_
+
+*内核模式设置*（Kernel Mode Setting，简称 KMS）是 DRM 的子系统，用于控制显示设备的“输出路径”，即显示管线。它允许在内核空间完成分辨率设置、刷新率调整、帧缓冲切换等操作，而不依赖用户空间的图形服务器。
+
+KMS 将整个显示控制器的显示 pipeline 抽象成以下几个部分：
+
+- *Plane（图层）*
+
+  每个 plane 表示一块可渲染的图像区域，可独立组合显示输出。plane 分为三类：
+
+  - Primary：主图层，必需。对应于整个屏幕内容，通常显示整个帧缓冲区。
+  - Cursor：用于显示鼠标光标，通常是一个小图层，支持硬件加速。
+  - Overlay：可选的叠加图层，用于视频加速或硬件合成。
+
+- *CRTC（Cathode Ray Tube Controller）*
+
+  控制图像从 plane 传送到 encoder，类似一个“图像流控制器”，主要用于管理显示设备的扫描和刷新。一个 CRTC 通常绑定一个主 plane，但也可能支持多个 overlay。
+
+- *Encoder（编码器）*
+
+  将图像信号从 GPU 转换为特定格式，如 HDMI、DP、eDP、VGA 等。
+
+- *Connector（连接器）*
+
+  表示实际的物理接口（如 HDMI 接口、DisplayPort 接口），对应连接的显示设备（monitor）。
+
+> 🔄 工作流程示意：*_Plane → CRTC → Encoder → Connector → Monitor_*
+
+#pagebreak()
 
 == Wayland 协议与 X11 协议
 
@@ -214,6 +451,8 @@ _*用户层*_
   caption: "linux图形栈",
 )
 
+#pagebreak()
+
 === Wayland 协议
 
 Wayland 是由 wayland.freedesktop.org 推出的现代图形协议，旨在取代 X11。它以简洁、安全和高性能为设计核心。其基本架构如下：
@@ -237,9 +476,11 @@ Protocols：
 - 绝大多数请求异步处理，无需等待确认，显著提升响应效率。
 
 #figure(
-  image("introduce/wayland.png", width: 60%),
+  image("introduce/wayland.png", width: 50%),
   caption: "wayland协议示意图",
 )
+
+#pagebreak()
 
 === X11 协议
 
@@ -257,13 +498,9 @@ X11 协议支持网络透明性，即 X Client 和 X Server 可以运行在不�
 尽管X11历经多年优化， 其架构已难以满足现代图形系统对性能和安全性的需求。
 
 #figure(
-  image("introduce/x11.png", width: 70%),
+  image("introduce/x11.png", width: 50%),
   caption: "x11协议示意图",
 )
-
-
-#pagebreak()
-
 
 === Wayland 协议的优势
 
@@ -288,7 +525,7 @@ Wayland 协议采用模块化设计，核心协议只定义基础对象（如 wl
 
 #align(center)[
   #table(
-    columns: 2,
+    columns: (1fr, 1fr),
     align: center,
     inset: 5pt,
 
@@ -310,6 +547,12 @@ _*原生合成支持*_
 == 平铺式布局管理
 
 传统的桌面环境普遍采用堆叠式（Stacking）窗口管理模型，其核心思想是通过层叠多个可自由移动和缩放的窗口来组织界面。窗口的可见性与交互依赖于 Z 轴层级与遮挡关系。随着窗口数量增多、任务频繁切换，该模型易产生空间浪费、管理混乱、用户认知负担，不利于高效使用。
+
+#quote()[
+  The traditional windowing system works well as long as you only have a handful of small windows, but issues emerge as soon the number and size of the windows grows. As new windows are opened, existing ones are obscured, sometimes completely hiding them from view. Or, when you open a maximized window, suddenly every other window is hidden.#cite(<Gnome>)
+
+  只要你只有少数几个小窗户，传统的窗户系统就可以正常工作，但一旦窗户的数量和大小增加，问题就会出现。当新窗口打开时，现有窗口会被遮挡，有时甚至完全隐藏在视线之外。或者，当您打开最大化的窗口时，突然所有其他窗口都被隐藏。
+]
 
 #figure(
   image("introduce/stack.png", width: 100%),
@@ -488,7 +731,7 @@ event_loop
 
 #align(center)[
   #table(
-    columns: 3,
+    columns: (auto, 1fr, 1fr),
     align: center,
     inset: 5pt,
 
@@ -1057,124 +1300,6 @@ pub fn action_keys(&mut self, keys: String, serial: Serial) {
 
 项目在裸机终端中自行初始化 DRM/KMS 图形管线，并通过 GBM 和 EGL 建立 GPU 渲染上下文，使用 OpenGL ES 进行硬件加速合成显示。启动后该 Compositor 接管系统图形输出，并成为客户端程序（如终端模拟器、浏览器）的 Wayland 显示服务。
 
-=== Linux 图形栈核心技术组件
-
-#figure(
-  image("introduce/opengl.png", width: 100%),
-  caption: "opengl渲染过程演示图",
-)
-
-用画廊来举例，会比较容易理解。
-
-画师就是 OpenGL/GLES，用于绘制用户提交的绘制需求，在绘制之前，画廊陈列员（EGL）
-会负责与库存管理员（GBM）联系，确定好最终需要陈放画框的大小（buffer size），位置（egl buffer 映射）以及一些其他内容（egl context）。画师绘制完图画以后，先将图画堆积到队列中（queue frame），时机到达后（VBlank）就将原先墙上的画拿下，然后挂上新的画（page flip）。
-
-下面是正式的介绍。
-
-==== OpenGL/GLES
-
-OpenGL（Open Graphics Library） 与其精简版 OpenGL ES（Embedded Systems） 是广泛使用的跨平台图形渲染 API，用于执行图形计算和渲染操作。在嵌入式或资源受限的环境中，OpenGL ES 更为常用，其接口更加轻量，适合直接在 TTY 裸机模式下运行。
-
-在本项目中，OpenGL ES 被用于执行 GPU 加速的图形渲染任务。具体包括：
-
-- 几何图形的绘制（如窗口、装饰、阴影）；
-- 着色器程序的编译与执行；
-- 将渲染内容输出到帧缓冲（Framebuffer）中，供后续显示。
-
-在 TTY 裸机模式下，合成器通过 OpenGL ES 执行图形绘制操作，如几何图元绘制、纹理映射和着色器执行，最终将图像渲染到 GPU 管理的缓冲区（Framebuffer）中。
-
-==== EGL
-
-EGL 是连接 OpenGL ES 与本地窗口系统（如 X11、Wayland、或裸设备如 GBM）的中间接口库。其职责包括：
-
-- 初始化图形上下文；
-- 创建渲染表面（EGLSurface）；
-- 在渲染器与底层硬件（GBM、DRM）之间建立连接；
-- 管理 buffer swap（如 eglSwapBuffers()）与同步机制。
-
-在 TTY 环境中，EGL 通常与 GBM 配合使用，将 GPU buffer 分配出来供 OpenGL ES 使用，建立渲染到显示设备之间的桥梁。
-
-==== GBM（Generic Buffer Management）
-
-GBM 是 Mesa 提供的一个用于和内核 DRM 系统交互的库，它的主要功能是：
-
-- 分配可被 GPU 渲染的缓冲区（bo：buffer object）；
-- 将这些缓冲区导出为 DMA-BUF handle，用于与 DRM 或其他进程共享；
-- 为 EGL 提供可渲染的 EGLNativeWindowType。
-
-GBM 允许在没有窗口系统的场景下（如 TTY 模式）创建 OpenGL 可用的 framebuffer，从而支持嵌入式系统和裸机合成器的图形输出。
-
-==== Mesa3D
-
-Mesa3D 是开源图形栈的核心，提供了 OpenGL、OpenGL ES、EGL、GBM 等多个图形接口的完整实现。它在用户空间运行，并与内核空间的 DRM 驱动协同工作。
-
-Mesa 提供以下功能：
-
-- 实现 OpenGL / GLES API，并将其转译为 GPU 硬件可识别的命令；
-- 管理 shader 编译、状态机、纹理、缓冲区等所有渲染细节；
-- 实现 GBM 与 DRM 的绑定，支持 buffer 分配与传输；
-- 调度 page flip 请求，通过 DRM 与显示硬件同步。
-
-==== DRM（Direct Rendering Manager）
-
-*直接渲染管理器*（Direct Rendering Manager，缩写为 DRM）是 Linux 内核图形子系统的一部分，负责与 GPU（图形处理单元）通信。它允许用户空间程序（如图形服务器或 Wayland compositor）通过内核公开的接口，完成以下关键任务：
-
-- 分配和管理图形缓冲区（buffer）
-- 设置显示模式（分辨率、刷新率等）
-- 与显示设备（显示器）建立连接
-- 将 GPU 渲染结果显示到屏幕上 - PageFlip 页面翻转
-
-DRM 是现代 Linux 图形栈的基础，允许程序绕过传统 X Server，直接操作 GPU，形成了“GPU 直连”的渲染路径。
-
-#figure(
-  image("introduce/DRM.png", width: 100%),
-  caption: "DRM/KMS系统演示图",
-)
-
-要想理解 DRM ，首先要理解两个关键子模块的工作内容：
-
-_*GEM（Graphic Execution Manager）*_
-
-*图形执行管理器*（Graphics Execution Manager，简称 GEM）是 DRM 子系统中的另一个重要模块，主要用于内存管理，即如何分配和管理 GPU 可访问的图形缓冲区（buffer）。
-
-它提供了如下功能：
-
-- 为用户空间分配 GPU 使用的显存或系统内存缓冲区
-- 提供缓冲区在用户空间与内核空间之间的共享与引用机制
-- 管理缓冲区的生命周期和同步（避免读写冲突）
-
-帧缓冲区对象（framebuffer）是帧内存对象的抽象，它提供了像素源给到 CRTC。帧缓冲区依赖于底层内存管理器分配内存。
-
-在程序中，使用 DRM 接口创建 framebuffer、EGL 创建的渲染目标，底层通常都通过 GEM 管理。GEM 的存在使得多种图形 API（OpenGL ES、Vulkan、视频解码等）可以统一、高效地访问 GPU 资源。
-
-_*KMS（Kernel Mode Setting）*_
-
-*内核模式设置*（Kernel Mode Setting，简称 KMS）是 DRM 的子系统，用于控制显示设备的“输出路径”，即显示管线。它允许在内核空间完成分辨率设置、刷新率调整、帧缓冲切换等操作，而不依赖用户空间的图形服务器。
-
-KMS 将整个显示控制器的显示 pipeline 抽象成以下几个部分：
-
-- *Plane（图层）*
-
-  每个 plane 表示一块可渲染的图像区域，可独立组合显示输出。plane 分为三类：
-
-  - Primary：主图层，必需。对应于整个屏幕内容，通常显示整个帧缓冲区。
-  - Cursor：用于显示鼠标光标，通常是一个小图层，支持硬件加速。
-  - Overlay：可选的叠加图层，用于视频加速或硬件合成。
-
-- *CRTC（Cathode Ray Tube Controller）*
-
-  控制图像从 plane 传送到 encoder，类似一个“图像流控制器”，主要用于管理显示设备的扫描和刷新。一个 CRTC 通常绑定一个主 plane，但也可能支持多个 overlay。
-
-- *Encoder（编码器）*
-
-  将图像信号从 GPU 转换为特定格式，如 HDMI、DP、eDP、VGA 等。
-
-- *Connector（连接器）*
-
-  表示实际的物理接口（如 HDMI 接口、DisplayPort 接口），对应连接的显示设备（monitor）。
-
-> 🔄 工作流程示意：*_Plane → CRTC → Encoder → Connector → Monitor_*
-
 === Wayland 通信流程与显示流程
 
 本项目实现了一个独立于 X11、无需任何桌面环境即可运行的 Wayland 合成器（compositor），通过直接接管 TTY 并使用 DRM/KMS 完成图形显示。在显示系统的构建中，Wayland 扮演的是 图形系统通信协议 的角色，而具体的渲染、显示和输入处理由 DRM、GBM、EGL 与 libinput 等模块协同完成。
@@ -1558,8 +1683,6 @@ impl Tty {
 - 监听 udev，获取所有 GPU 设备以及其对应的显示器信息
 - 按照给定帧率执行渲染流程
 
-本项目目前只实现了单 GPU 单显示器固定帧率渲染，渲染部分主要按照此流程重复执行：
-
 ```
 render_output() // 渲染合成指定显示器上的内容
 ↓
@@ -1576,7 +1699,7 @@ flush_client() // 通知客户端渲染下一帧
 
 == 平铺式布局算法设计
 
-在一个窗口管理器中，布局系统扮演着核心角色。为了高效管理窗口的空间排布，本项目采用了一种结构清晰、修改高效的 *容器式二叉树（Contain Binary Tree）* 结构作为窗口布局的基础数据模型。该树结构基于 `SlotMap` 构建，结合唯一键值索引（Key-based access），理论上可以将常规操作如插入、删除、定位的时间复杂度优化至常数级别 `O(1)`。
+在一个窗口管理器中，布局系统扮演着核心角色。为了高效管理窗口的空间排布，本项目采用了一种结构清晰、修改高效的 *容器式二叉树（Contain Binary Tree）*#cite(<TiledWM>) 结构作为窗口布局的基础数据模型。该树结构基于 `SlotMap` 构建，结合唯一键值索引（Key-based access），理论上可以将常规操作如插入、删除、定位的时间复杂度优化至常数级别 `O(1)`。
 
 === 平铺树与浮动窗口
 
@@ -3749,11 +3872,13 @@ glmark2 本身主要是一个 OpenGL (X11/EGL) 下的基准测试工具，我们
   caption: "glmark2 正常情况测试",
 )
 
+#pagebreak()
+
 平均分数比较：
 
 #align(center)[
   #table(
-    columns: 3,
+    columns: (1fr, 1fr, 1fr),
     align: center,
     inset: 5pt,
 
